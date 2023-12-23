@@ -1,0 +1,13 @@
+{
+  "body": {
+    "content": "ewoibmFtZSI6ICJPZmlyIENvaGVuIiwKImVtYWlsIiA6ICJvZmlyMjE2MTMyNEBnbWFpbC5jb20iLAoicGFzc3dvcmQiOiAiT28xMjM0NTY3OCIsCiJwYXNzd29yZENvbmZpcm0iOiAiT28xMjM0NTY3OCIKfQ==",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "POST",
+  "title": "register user",
+  "url": "http://localhost:8000/api/auth/register"
+}

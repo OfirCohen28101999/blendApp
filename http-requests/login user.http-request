@@ -1,0 +1,13 @@
+{
+  "body": {
+    "content": "ewoiZW1haWwiIDogIm9maXIyMTYxMzI0QGdtYWlsLmNvbSIsCiJwYXNzd29yZCI6ICJPbzEyMzQ1Njc4Igp9",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "POST",
+  "title": "login user",
+  "url": "http://localhost:8000/api/auth/login"
+}

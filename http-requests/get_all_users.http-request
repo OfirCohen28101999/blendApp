@@ -1,0 +1,13 @@
+{
+  "body": {
+    "content": "",
+    "file": false,
+    "fileSize": false
+  },
+  "headers": {
+    "authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTg3NTcwNDJkMWRhYmJhMDJkZWY3MzIiLCJpYXQiOjE3MDMzNjkxNTUsImV4cCI6MTcwMzM3MDA1NX0.1OcLjRzvvQq0Y9nDUdvPYEtx0Nmtd0_vRtgXmYWJzoT3aIzuN1N0HEgIMNqENPkredDCSNhal2ZbTCBiKOpUwg"
+  },
+  "method": "GET",
+  "title": "get all users",
+  "url": "http://localhost:8000/api/users"
+}
