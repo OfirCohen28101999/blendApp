@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
-import redisClient from "../utils/connect-to-redis";
 import { verifyJwt } from "../middleware/jwt";
+import redisClient from "../utils/connect-to-redis";
 
 export const deserializeUser = async (
   req: Request,
@@ -26,7 +26,10 @@ export const deserializeUser = async (
     }
 
     // Validate Access Token
-    const decoded = verifyJwt<{ sub: string }>(access_token);
+    const decoded = verifyJwt<{ sub: string }>(
+      access_token,
+      "accessTokenPublicKey"
+    );
 
     if (!decoded) {
       return next(new AppError(`Invalid token or user doesn't exist`, 401));
