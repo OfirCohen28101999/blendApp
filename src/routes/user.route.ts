@@ -8,6 +8,7 @@ import { requireUser } from "../middleware/requireUser";
 import { restrictTo } from "../middleware/restrictTo";
 
 const router = express.Router();
+
 router.use(deserializeUser, requireUser);
 
 // Admin Get Users route

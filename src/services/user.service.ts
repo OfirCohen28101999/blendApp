@@ -35,12 +35,14 @@ export const findUser = async (
 // Sign Token
 export const signToken = async (user: DocumentType<User>) => {
   // Sign the access token
-  const access_token = signJwt(
-    { sub: user._id },
-    {
-      expiresIn: `${config.get<number>("accessTokenExpiresIn")}m`,
-    }
-  );
+  const access_token = signJwt({ sub: user._id }, "accessTokenPrivateKey", {
+    expiresIn: `${config.get<number>("accessTokenExpiresIn")}m`,
+  });
+
+  // Sign the refresh token
+  const refresh_token = signJwt({ sub: user._id }, "refreshTokenPrivateKey", {
+    expiresIn: `${config.get<number>("refreshTokenExpiresIn")}m`,
+  });
 
   // todo: redis shit
   // Create a Session
@@ -48,5 +50,5 @@ export const signToken = async (user: DocumentType<User>) => {
   redisClient.expire(user.id, 60 * 60);
 
   // Return access token
-  return { access_token };
+  return { access_token, refresh_token };
 };

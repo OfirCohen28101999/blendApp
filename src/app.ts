@@ -18,10 +18,7 @@ app.use(express.json({ limit: "10kb" }));
 // 2. Cookie Parser
 app.use(cookieParser());
 
-// 3. Logger
-if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
-
-// 4. Cors
+// 3. Cors
 app.use(
   cors({
     origin: config.get<string>("origin"),
@@ -29,17 +26,23 @@ app.use(
   })
 );
 
+// 4. Logger
+if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+
 // 5. Routes
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
 // Testing
-app.get("/healthChecker", (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json({
-    status: "success",
-    message: "Welcome to the Blend app server! :)",
-  });
-});
+app.get(
+  "/api/healthChecker",
+  (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json({
+      status: "success",
+      message: "Welcome to the Blend app server! :)",
+    });
+  }
+);
 
 // UnKnown Routes
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
