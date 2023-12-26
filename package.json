@@ -4,8 +4,9 @@
   "description": "blend - music based social network.",
   "main": "app.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsc && jest --setupFiles dotenv/config --detectOpenHandles --forceExit --runInBand",
+    "start": "tsc && node ./dist/src/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -23,16 +24,22 @@
   },
   "homepage": "https://github.com/OfirCohen28101999/blendApp#readme",
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/config": "^3.3.3",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.11",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.202",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.10.5",
+    "@types/supertest": "^6.0.1",
+    "jest": "^29.7.0",
     "morgan": "^1.10.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
