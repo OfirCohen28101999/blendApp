@@ -1,5 +1,4 @@
 import {
-  DocumentType,
   getModelForClass,
   index,
   modelOptions,
