@@ -20,6 +20,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  const userFound = await userModel.findOne({ email: user.email });
+  if (userFound) {
+    await redisClient.del(userFound.id);
+  }
   await userModel.deleteMany({ email: user.email });
   await mongoose.connection.close();
   await redisClient.quit();
