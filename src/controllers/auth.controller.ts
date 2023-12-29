@@ -9,7 +9,11 @@ import {
 } from "../services/user.service";
 import AppError from "../utils/appError";
 import { signJwt, verifyJwt } from "../middleware/jwt";
-import redisClient from "../utils/connect-to-redis";
+import {
+  findValidSessionsByUserId,
+  invalidateAllUserSessions,
+} from "../services/session.service";
+import { Session } from "../models/session.model";
 
 // Exclude this fields from the response
 export const excludedFields = ["password"];
@@ -132,13 +136,13 @@ export const refreshAccessTokenHandler = async (
     }
 
     // Check if the user has a valid session
-    const session = await redisClient.get(decoded.sub);
-    if (!session) {
+    const sessions = await findValidSessionsByUserId(decoded.sub);
+    if (sessions.length === 0) {
       return next(new AppError(message, 403));
     }
 
     // Check if the user exist
-    const user = await findUserById(JSON.parse(session)._id);
+    const user = await findUserById(sessions[0].user._id.toString());
 
     if (!user) {
       return next(new AppError(message, 403));
@@ -173,8 +177,7 @@ export const logoutHandler = async (
 ) => {
   try {
     const user = res.locals.user;
-    const re = await redisClient.del(user.id);
-    console.log(re);
+    await invalidateAllUserSessions(user);
     logout(res);
     return res.status(200).json({ status: "success" });
   } catch (err: any) {

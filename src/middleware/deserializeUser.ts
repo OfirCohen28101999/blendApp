@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { findUserById } from "../services/user.service";
 import AppError from "../utils/appError";
 import { verifyJwt } from "../middleware/jwt";
-import redisClient from "../utils/connect-to-redis";
+import { findValidSessionsByUserId } from "../services/session.service";
 
 export const deserializeUser = async (
   req: Request,
@@ -35,16 +35,14 @@ export const deserializeUser = async (
       return next(new AppError(`Invalid token or user doesn't exist`, 401));
     }
 
-    // todo: redis
     // Check if user has a valid session
-    const session = await redisClient.get(decoded.sub);
-
-    if (!session) {
+    const sessions = await findValidSessionsByUserId(decoded.sub);
+    if (sessions.length === 0) {
       return next(new AppError(`User session has expired`, 401));
     }
 
     // Check if user still exist
-    const user = await findUserById(JSON.parse(session)._id);
+    const user = await findUserById(sessions[0].user._id.toString());
 
     if (!user) {
       return next(new AppError(`User with that token no longer exist`, 401));

@@ -1,11 +1,11 @@
 import { omit, get } from "lodash";
-import { FilterQuery, QueryOptions } from "mongoose";
+import { FilterQuery, ObjectId, QueryOptions } from "mongoose";
 import config from "config";
 import userModel, { User } from "../models/user.model";
 import { excludedFields } from "../controllers/auth.controller";
 import { signJwt } from "../middleware/jwt";
-import redisClient from "../utils/connect-to-redis";
 import { DocumentType } from "@typegoose/typegoose";
+import { createSession } from "./session.service";
 
 // CreateUser service
 export const createUser = async (input: Partial<User>) => {
@@ -44,10 +44,8 @@ export const signToken = async (user: DocumentType<User>) => {
     expiresIn: `${config.get<number>("refreshTokenExpiresIn")}m`,
   });
 
-  // todo: redis shit
   // Create a Session
-  redisClient.set(user.id, JSON.stringify(user));
-  redisClient.expire(user.id, 60 * 60);
+  await createSession(user);
 
   // Return access token
   return { access_token, refresh_token };

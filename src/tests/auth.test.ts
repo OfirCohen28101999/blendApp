@@ -3,7 +3,6 @@ import initApp from "../app";
 import mongoose from "mongoose";
 import { Express } from "express";
 import userModel from "../models/user.model";
-import redisClient from "../utils/connect-to-redis";
 
 let app: Express;
 
@@ -20,13 +19,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  const userFound = await userModel.findOne({ email: user.email });
-  if (userFound) {
-    await redisClient.del(userFound.id);
-  }
   await userModel.deleteMany({ email: user.email });
   await mongoose.connection.close();
-  await redisClient.quit();
 });
 
 describe("Auth tests", () => {

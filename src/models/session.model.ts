@@ -13,11 +13,8 @@ import { User } from "./user.model";
   },
 })
 export class Session {
-  @prop({ unique: true, required: true })
-  id: string;
-
-  @prop({ ref: () => User })
-  public user?: Ref<User>;
+  @prop({ ref: () => User, unique: false })
+  public user: Ref<User>;
 
   @prop({ default: true })
   valid: Boolean;
