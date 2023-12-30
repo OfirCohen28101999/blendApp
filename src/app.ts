@@ -1,5 +1,9 @@
 require("dotenv").config();
 import express, { Express, NextFunction, Request, Response } from "express";
+
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+
 import morgan from "morgan";
 import config from "config";
 import cors from "cors";
@@ -7,6 +11,24 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
 import connectDB from "./utils/connect-to-DB";
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Blend API",
+      version: "1.0.0",
+      description: "Blend app API documentation",
+    },
+    servers: [
+      {
+        url: `http://localhost:${config.get<number>("port")}`,
+      },
+    ],
+  },
+  // apis: ["./src/routes/*.ts"],
+  apis: ["./src/*.ts", "./src/routes/*.ts"],
+};
 
 const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -34,11 +56,21 @@ const initApp = (): Promise<Express> => {
       // 4. Logger
       if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
-      // 5. Routes
+      // swagger
+      const swaggerDocs = swaggerJsDoc(swaggerOptions);
+      app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+      // Routes
       app.use("/api/users", userRouter);
       app.use("/api/auth", authRouter);
 
-      // Testing
+      /**
+       * @swagger
+       *
+       * /api/healthChecker:
+       *   get:
+       *     summary: simple health check for the server
+       */
       app.get(
         "/api/healthChecker",
         (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +81,12 @@ const initApp = (): Promise<Express> => {
         }
       );
 
-      // UnKnown Routes
+      /**
+       * @swagger
+       * /:
+       *   get:
+       *     summary:  fallback for unknown/not supported routes
+       */
       app.all("*", (req: Request, res: Response, next: NextFunction) => {
         const err = new Error(`Route ${req.originalUrl} not found`) as any;
         err.statusCode = 404;

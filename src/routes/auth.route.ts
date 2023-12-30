@@ -12,10 +12,50 @@ import { createUserSchema, loginUserSchema } from "../schemas/user.schema";
 
 const router = express.Router();
 
-// Register user route
+/**
+ * @swagger
+ *
+ * /api/auth/register:
+ *   post:
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: name
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: email
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: passwordConfirm
+ *         in: formData
+ *         required: true
+ *         type: string
+ */
 router.post("/register", validate(createUserSchema), registerHandler);
 
-// Login user route
+/**
+ * @swagger
+ *
+ * /api/auth/login:
+ *   post:
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: email
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: formData
+ *         required: true
+ *         type: string
+ */
 router.post("/login", validate(loginUserSchema), loginHandler);
 
 // Refresh access toke route
