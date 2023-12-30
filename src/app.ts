@@ -10,6 +10,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
+import sessionRouter from "./routes/session.route";
 import connectDB from "./utils/connect-to-DB";
 
 const swaggerOptions = {
@@ -61,6 +62,7 @@ const initApp = (): Promise<Express> => {
       app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
       // Routes
+      app.use("/api/sessions", sessionRouter);
       app.use("/api/users", userRouter);
       app.use("/api/auth", authRouter);
 

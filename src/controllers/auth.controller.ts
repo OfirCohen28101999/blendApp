@@ -3,6 +3,7 @@ import { CookieOptions, NextFunction, Request, Response } from "express";
 import { CreateUserInput, LoginUserInput } from "../schemas/user.schema";
 import {
   createUser,
+  findAndUpdateUser,
   findUser,
   findUserById,
   signToken,
@@ -13,7 +14,10 @@ import {
   findValidSessionsByUserId,
   invalidateAllUserSessions,
 } from "../services/session.service";
-import { Session } from "../models/session.model";
+import {
+  getGoogleOauthToken,
+  getGoogleUser,
+} from "../services/session.service";
 
 // Exclude this fields from the response
 export const excludedFields = ["password"];
@@ -182,5 +186,67 @@ export const logoutHandler = async (
     return res.status(200).json({ status: "success" });
   } catch (err: any) {
     next(err);
+  }
+};
+
+export const googleOauthHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Get the code from the query
+    const code = req.query.code as string;
+    const pathUrl = (req.query.state as string) || "/";
+
+    if (!code) {
+      return next(new AppError("Authorization code not provided!", 401));
+    }
+
+    // Use the code to get the id and access tokens
+    const { id_token, access_token } = await getGoogleOauthToken({ code });
+
+    // Use the token to get the User
+    const { name, verified_email, email, picture } = await getGoogleUser({
+      id_token,
+      access_token,
+    });
+
+    // Check if user is verified
+    if (!verified_email) {
+      return next(new AppError("Google account not verified", 403));
+    }
+
+    // Update user if user already exist or create new user
+    const user = await findAndUpdateUser(
+      { email },
+      {
+        name,
+        photo: picture,
+        email,
+        provider: "Google",
+        verified: true,
+      },
+      { upsert: true, runValidators: false, new: true, lean: true }
+    );
+
+    if (!user)
+      return res.redirect(`${config.get<string>("origin")}/oauth/error`);
+
+    // Create access and refresh token
+    const { access_token: accessToken, refresh_token } = await signToken(user);
+
+    // Send cookie
+    res.cookie("access_token", accessToken, accessTokenCookieOptions);
+    res.cookie("refresh_token", refresh_token, refreshTokenCookieOptions);
+    res.cookie("logged_in", true, {
+      ...accessTokenCookieOptions,
+      httpOnly: false,
+    });
+
+    res.redirect(`${config.get<string>("origin")}${pathUrl}`);
+  } catch (err: any) {
+    console.log("Failed to authorize Google User", err);
+    return res.redirect(`${config.get<string>("origin")}/oauth/error`);
   }
 };
