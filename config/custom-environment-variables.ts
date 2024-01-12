@@ -11,4 +11,7 @@ export default {
   googleClientId: "GOOGLE_OAUTH_CLIENT_ID",
   googleClientSecret: "GOOGLE_OAUTH_CLIENT_SECRET",
   googleOauthRedirect: "GOOGLE_OAUTH_REDIRECT_URL",
+  rapidApiKey: "RAPIDAPI_KEY",
+  rapidApiHost: "RAPIDAPI_HOST",
+  initializationPlaylistIds: "INITIALIZATION_PLAYLIST_IDS",
 };

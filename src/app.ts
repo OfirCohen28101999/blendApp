@@ -12,6 +12,7 @@ import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
 import sessionRouter from "./routes/session.route";
 import connectDB from "./utils/connect-to-DB";
+import { initilizeSongsTableByPlaylists } from "./utils/init-songs";
 
 const swaggerOptions = {
   definition: {
@@ -94,6 +95,13 @@ const initApp = (): Promise<Express> => {
         err.statusCode = 404;
         next(err);
       });
+
+      // initilize songs
+      initilizeSongsTableByPlaylists(
+        config.get<string>("initializationPlaylistIds").split(","),
+        config.get<string>("rapidApiKey"),
+        config.get<string>("rapidApiHost")
+      );
 
       // Global Error Handler
       app.use((err: any, req: Request, res: Response, next: NextFunction) => {
