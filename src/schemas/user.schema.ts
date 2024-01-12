@@ -28,5 +28,14 @@ export const loginUserSchema = object({
   }),
 });
 
+export const updateUserSchema = object({
+  body: object({
+    name: string(),
+    bio: string(),
+    photo: string(),
+  }),
+});
+
 export type CreateUserInput = TypeOf<typeof createUserSchema>["body"];
 export type LoginUserInput = TypeOf<typeof loginUserSchema>["body"];
+export type UpdateUserInput = TypeOf<typeof updateUserSchema>["body"];

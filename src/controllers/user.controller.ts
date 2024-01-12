@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { findAllUsers } from "../services/user.service";
+import { UpdateUserInput } from "../schemas/user.schema";
 
 export const getMeHandler = (
   req: Request,
@@ -33,6 +34,18 @@ export const getAllUsersHandler = async (
         users,
       },
     });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+// todo: needs to be implemented
+export const updateUserHandler = async (
+  req: Request<{}, {}, UpdateUserInput>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
   } catch (err: any) {
     next(err);
   }

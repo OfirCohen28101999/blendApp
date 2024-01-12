@@ -17,10 +17,10 @@ export class Post {
   @prop({ ref: () => Track, required: true, unique: false })
   public track: Ref<Track>;
 
-  @prop({ required: true })
+  @prop({ required: true, nullable: false })
   title: string;
 
-  @prop({ required: true })
+  @prop({ required: true, nullable: false })
   description: string;
 
   @prop({ default: "default.png" })

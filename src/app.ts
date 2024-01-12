@@ -11,6 +11,8 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
 import sessionRouter from "./routes/session.route";
+import postRouter from "./routes/post.route";
+
 import connectDB from "./utils/connect-to-DB";
 import { initilizeSongsTableByPlaylists } from "./utils/init-songs";
 
@@ -66,6 +68,7 @@ const initApp = (): Promise<Express> => {
       app.use("/api/auth/session", sessionRouter);
       app.use("/api/users", userRouter);
       app.use("/api/auth", authRouter);
+      app.use("/api/post", postRouter);
 
       /**
        * @swagger

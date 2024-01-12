@@ -13,16 +13,16 @@ import { Post } from "./post.model";
   },
 })
 export class Comment {
-  @prop({ ref: () => User, required: true, unique: false })
+  @prop({ ref: () => User, nullable: false, required: true, unique: false })
   public creatingUser: Ref<User>;
 
-  @prop({ ref: () => Post, required: true, unique: false })
+  @prop({ ref: () => Post, nullable: false, required: true, unique: false })
   public post: Ref<Post>;
 
-  @prop({ required: true })
+  @prop({ required: true, nullable: false })
   title: string;
 
-  @prop({ required: true })
+  @prop({ required: true, nullable: false })
   description: string;
 }
 

@@ -58,12 +58,12 @@ router.post("/register", validate(createUserSchema), registerHandler);
  */
 router.post("/login", validate(loginUserSchema), loginHandler);
 
-// Refresh access toke route
+// todo: swagger
 router.get("/refresh", refreshAccessTokenHandler);
 
 router.use(deserializeUser, requireUser);
 
-// Logout User
+// todo: swagger
 router.get("/logout", logoutHandler);
 
 export default router;
