@@ -2,12 +2,9 @@ import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
 @modelOptions({
   schemaOptions: {
-    // Add createdAt and updatedAt fields
     timestamps: true,
   },
 })
-
-// Export the Track class to be used as TypeScript type
 export class Track {
   @prop({ primary: true, unique: true, required: true })
   spotifyId: string;
@@ -29,6 +26,5 @@ export class Track {
   previewUrl: string;
 }
 
-// Create the track model from the Track class
 const trackModel = getModelForClass(Track);
 export default trackModel;

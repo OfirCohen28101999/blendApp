@@ -6,8 +6,6 @@ import {
   prop,
 } from "@typegoose/typegoose";
 import bcrypt from "bcryptjs";
-
-// todo: add more props according to https://docs.google.com/document/d/1Frm9Sxrkx5dhTBd2nslCDCwGM5cmNTxs/edit
 @index({ email: 1 })
 @pre<User>("save", async function () {
   // Hash password if the password is new or was updated
@@ -18,12 +16,9 @@ import bcrypt from "bcryptjs";
 })
 @modelOptions({
   schemaOptions: {
-    // Add createdAt and updatedAt fields
     timestamps: true,
   },
 })
-
-// Export the User class to be used as TypeScript type
 export class User {
   @prop()
   name: string;
@@ -46,12 +41,14 @@ export class User {
   @prop({ default: "local" })
   provider: string;
 
+  @prop({ nullable: true })
+  bio: string;
+
   // Instance method to check if passwords match
   async comparePasswords(hashedPassword: string, candidatePassword: string) {
     return await bcrypt.compare(candidatePassword, hashedPassword);
   }
 }
 
-// Create the user model from the User class
 const userModel = getModelForClass(User);
 export default userModel;

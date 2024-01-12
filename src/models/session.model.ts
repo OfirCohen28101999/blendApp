@@ -8,7 +8,6 @@ import { User } from "./user.model";
 
 @modelOptions({
   schemaOptions: {
-    // Add createdAt and updatedAt fields
     timestamps: true,
   },
 })
