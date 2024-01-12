@@ -62,7 +62,7 @@ const initApp = (): Promise<Express> => {
       app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
       // Routes
-      app.use("/api/sessions", sessionRouter);
+      app.use("/api/auth/session", sessionRouter);
       app.use("/api/users", userRouter);
       app.use("/api/auth", authRouter);
 

@@ -6,7 +6,8 @@ export default {
   dbUsername: "blendApp",
   dbPassword: "Bb123456",
   dbClusterName: "blend.ik0o8gk",
-  googleClientId: "GOOGLE_OAUTH_CLIENT_ID",
-  googleClientSecret: "GOOGLE_OAUTH_CLIENT_SECRET",
-  googleOauthRedirect: "GOOGLE_OAUTH_REDIRECT_URL",
+  googleClientId:
+    "924617831478-qbr0m6epinj9aj7mjhg5b1ipjikfvmf3.apps.googleusercontent.com",
+  googleClientSecret: "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",
+  googleOauthRedirect: "http://localhost:8000/api/auth/session/oauth/google",
 };

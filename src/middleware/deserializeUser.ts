@@ -10,6 +10,10 @@ export const deserializeUser = async (
   next: NextFunction
 ) => {
   try {
+    if (req.originalUrl.startsWith("/api/auth/session/oauth/google")) {
+      return next();
+    }
+
     // Get the token
     let access_token;
     if (
