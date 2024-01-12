@@ -9,4 +9,20 @@ export const upsertPostSchema = object({
   }),
 });
 
+const params = {
+  params: object({
+    postId: string(),
+  }),
+};
+
+export const getPostSchema = object({
+  ...params,
+});
+
+export const deletePostSchema = object({
+  ...params,
+});
+
 export type UpsertPostInput = TypeOf<typeof upsertPostSchema>["body"];
+export type GetPostInput = TypeOf<typeof getPostSchema>["params"];
+export type DeletePostInput = TypeOf<typeof deletePostSchema>["params"];

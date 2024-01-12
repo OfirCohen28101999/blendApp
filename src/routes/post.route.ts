@@ -20,7 +20,7 @@ router.use(deserializeUser, requireUser);
 // todo: needs to be checked
 // todo: swagger
 // todo: testing
-router.post("/", getAllPostsHandler);
+router.route("/").get(getAllPostsHandler);
 
 // todo: needs to be checked
 // todo: swagger

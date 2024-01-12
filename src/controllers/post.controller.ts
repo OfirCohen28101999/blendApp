@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { invalidateAllUserSessions } from "../services/session.service";
 import { createPost, findAllPosts } from "../services/post.service";
 import { UpsertPostInput } from "../schemas/post.schema";
 import { User } from "../models/user.model";
@@ -25,20 +24,14 @@ export const getAllPostsHandler = async (
   }
 };
 
-// todo: done needs to be checked
+// todo: working!
 export const createPostHandler = async (
   req: Request<{}, {}, UpsertPostInput>,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user: User | undefined = res.locals.user;
-
-    // todo: check if neccesary, becausse we already go through the middleware
-    if (!user) {
-      return next(new AppError(`cannot find user`, 401));
-    }
-
+    const user: User = res.locals.user;
     const post = await createPost(
       {
         title: req.body.title,

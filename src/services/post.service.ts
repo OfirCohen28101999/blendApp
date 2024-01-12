@@ -13,21 +13,28 @@ export const createPost = async (
   const post = await postModel.create({
     creatingUser: user,
     track,
-    partialPostInput,
+    ...partialPostInput,
   });
-  await post.populate("creatingUser", "track");
+
+  await post.populate("creatingUser");
+  await post.populate("track");
+
   return post.toJSON();
 };
 
 // find post by id
 export const findPostById = async (id: string) => {
-  const post = await postModel.findById(id).lean();
+  const post = await postModel
+    .findById(id)
+    .populate("creatingUser")
+    .populate("track")
+    .lean();
   return post;
 };
 
 // get all posts
 export const findAllPosts = async () => {
-  return await postModel.find();
+  return await postModel.find().populate("creatingUser").populate("track");
 };
 
 // can find by user id
@@ -35,7 +42,10 @@ export const findPost = async (
   query: FilterQuery<Post>,
   options: QueryOptions = {}
 ) => {
-  return await postModel.findOne(query, {}, options);
+  return await postModel
+    .findOne(query, {}, options)
+    .populate("creatingUser")
+    .populate("track");
 };
 
 // update
@@ -44,11 +54,14 @@ export const findAndUpdatePost = async (
   update: UpdateQuery<Post>,
   options: QueryOptions
 ) => {
-  return await postModel.findOneAndUpdate(query, update, options);
+  return await postModel
+    .findOneAndUpdate(query, update, options)
+    .populate("creatingUser")
+    .populate("track");
 };
 
 // delete
-export const deletePostById = async (id: string) => {
-  const post = await postModel.deleteOne({ id }).lean();
+export const deletePostById = async (postId: string) => {
+  const post = await postModel.findOneAndDelete({ _id: postId }).lean();
   return post;
 };
