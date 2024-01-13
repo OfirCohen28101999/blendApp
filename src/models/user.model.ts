@@ -41,7 +41,7 @@ export class User {
   @prop({ default: "local" })
   provider: string;
 
-  @prop({ nullable: true })
+  @prop({ default: "", nullable: true })
   bio: string;
 
   // Instance method to check if passwords match
