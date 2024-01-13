@@ -23,6 +23,10 @@ import {
   getPostSchema,
   updatePostSchema,
 } from "../schemas/post.schema";
+import {
+  checkCommentOwnership,
+  checkPostOwnership,
+} from "../middleware/checkOwnership";
 
 const router = express.Router();
 
@@ -61,13 +65,14 @@ router
   .route("/:postId")
   .get(validate(getPostSchema), getPostByIdHandler)
   .patch(
+    checkPostOwnership,
     uploadPostImage,
     resizePostImage,
     // parsePostFormData,
     validate(updatePostSchema),
     updatePostHandler
   )
-  .delete(validate(deletePostSchema), deletePostHandler);
+  .delete(checkPostOwnership, validate(deletePostSchema), deletePostHandler);
 
 // COMMENTS RELATED SHIT
 
@@ -84,11 +89,9 @@ router.post("/comment/:postId", createCommentHandler);
 // todo: needs to be implemented
 // todo: swagger
 // todo: testing
-router.patch("/comment/:commentId", updateCommentHandler);
-
-// todo: needs to be implemented
-// todo: swagger
-// todo: testing
-router.delete("/comment/:commentId", deleteCommentHandler);
+router
+  .route("/comment/:commentId")
+  .patch(checkCommentOwnership, updateCommentHandler)
+  .delete(checkCommentOwnership, deleteCommentHandler);
 
 export default router;

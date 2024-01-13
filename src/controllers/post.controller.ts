@@ -105,7 +105,6 @@ export const deletePostHandler = async (
   next: NextFunction
 ) => {
   try {
-    const user = res.locals.user;
     const post = await findOneAndDelete({ _id: req.params.postId });
     if (!post) {
       return next(new AppError("Post with that ID not found", 404));
