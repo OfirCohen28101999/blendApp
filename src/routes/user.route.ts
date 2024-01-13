@@ -7,6 +7,10 @@ import {
 import { deserializeUser } from "../middleware/deserializeUser";
 import { requireUser } from "../middleware/requireUser";
 import { restrictTo } from "../middleware/restrictTo";
+import {
+  uploadPostImage,
+  resizeUserProfileImage,
+} from "../upload/single-upload-sharp";
 
 const router = express.Router();
 
@@ -15,12 +19,11 @@ router.use(deserializeUser, requireUser);
 // todo: swagger
 router.get("/", restrictTo("admin"), getAllUsersHandler);
 
-// todo: swagger
-router.get("/me", getMeHandler);
-
-// todo: needs to be implemented
-// todo: swagger
-// todo: testing
-router.put("/me/update", updateUserHandler);
+// todo: test update user
+// todo: swagger, testing
+router
+  .route("/me")
+  .get(getMeHandler)
+  .patch(uploadPostImage, resizeUserProfileImage, updateUserHandler);
 
 export default router;

@@ -32,7 +32,7 @@ export const updateUserSchema = object({
   body: object({
     name: string(),
     bio: string(),
-    photo: string(),
+    image: string(),
   }),
 });
 

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import sharp from "sharp";
+import { User } from "../models/user.model";
 
 const multerStorage = multer.memoryStorage();
 
@@ -39,6 +40,34 @@ export const resizePostImage = async (
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
       .toFile(`${__dirname}/../../public/posts/${fileName}`);
+
+    req.body.image = fileName;
+
+    next();
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const resizeUserProfileImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user: User = res.locals.user;
+
+    const file = req.file;
+    if (!file) return next();
+
+    // todo: test this shit
+    // @ts-ignore
+    const fileName = `user-${user._id}-${Date.now()}.jpeg`;
+    await sharp(req.file?.buffer)
+      .resize(800, 450)
+      .toFormat("jpeg")
+      .jpeg({ quality: 90 })
+      .toFile(`${__dirname}/../../public/users/${fileName}`);
 
     req.body.image = fileName;
 

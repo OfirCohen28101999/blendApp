@@ -33,7 +33,7 @@ export class User {
   role: string;
 
   @prop({ default: "default.png" })
-  photo: string;
+  image: string;
 
   @prop({ default: false })
   verified: boolean;

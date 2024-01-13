@@ -222,7 +222,7 @@ export const googleOauthHandler = async (
       { email },
       {
         name,
-        photo: picture,
+        image: picture,
         email,
         provider: "Google",
         verified: true,

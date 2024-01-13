@@ -9,6 +9,10 @@ import { deserializeUser } from "../middleware/deserializeUser";
 import { requireUser } from "../middleware/requireUser";
 import { validate } from "../middleware/validate";
 import { createUserSchema, loginUserSchema } from "../schemas/user.schema";
+import {
+  resizeUserProfileImage,
+  uploadPostImage,
+} from "../upload/single-upload-sharp";
 
 const router = express.Router();
 
@@ -37,7 +41,13 @@ const router = express.Router();
  *         required: true
  *         type: string
  */
-router.post("/register", validate(createUserSchema), registerHandler);
+router.post(
+  "/register",
+  validate(createUserSchema),
+  uploadPostImage,
+  resizeUserProfileImage,
+  registerHandler
+);
 
 /**
  * @swagger
