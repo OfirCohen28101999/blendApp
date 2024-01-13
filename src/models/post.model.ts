@@ -24,7 +24,7 @@ export class Post {
   description: string;
 
   @prop({ default: "default.png" })
-  photo: string;
+  image: string;
 }
 
 const postModel = getModelForClass(Post);

@@ -12,35 +12,64 @@ import {
   updateCommentHandler,
   updatePostHandler,
 } from "../controllers/post.controller";
+import {
+  resizePostImage,
+  uploadPostImage,
+} from "../upload/single-upload-sharp";
+import { validate } from "../middleware/validate";
+import {
+  createPostSchema,
+  deletePostSchema,
+  getPostSchema,
+  updatePostSchema,
+} from "../schemas/post.schema";
 
 const router = express.Router();
 
 router.use(deserializeUser, requireUser);
 
-// todo: needs to be checked
 // todo: swagger
 // todo: testing
-router.route("/").get(getAllPostsHandler);
+// GET	/api/post	Retrieve all posts
 
-// todo: needs to be checked
 // todo: swagger
 // todo: testing
-router.post("/create", createPostHandler);
+// POST	/api/post	Creates a new post
+router
+  .route("/")
+  .post(
+    uploadPostImage,
+    resizePostImage,
+    // parsePostFormData,
+    validate(createPostSchema),
+    createPostHandler
+  )
+  .get(getAllPostsHandler);
 
-// todo: needs to be implemented
 // todo: swagger
 // todo: testing
-router.put("/update/:postId", updatePostHandler);
+// GET	/api/post/:id	Returns a single post
 
-// todo: needs to be implemented
 // todo: swagger
 // todo: testing
-router.delete("/delete/:postId", deletePostHandler);
+// PATCH	/api/post/:id	Updates a post
 
-// todo: needs to be implemented
 // todo: swagger
 // todo: testing
-router.get("/:postId", getPostByIdHandler);
+// DELETE	/api/post/:id	Deletes a post
+router
+  .route("/:postId")
+  .get(validate(getPostSchema), getPostByIdHandler)
+  .patch(
+    uploadPostImage,
+    resizePostImage,
+    // parsePostFormData,
+    validate(updatePostSchema),
+    updatePostHandler
+  )
+  .delete(validate(deletePostSchema), deletePostHandler);
+
+// COMMENTS RELATED SHIT
 
 // todo: needs to be implemented
 // todo: swagger
@@ -50,16 +79,16 @@ router.get("/:postId/comments", getCommentsByPostIdHandler);
 // todo: needs to be implemented
 // todo: swagger
 // todo: testing
-router.post("/comment/create/:postId", createCommentHandler);
+router.post("/comment/:postId", createCommentHandler);
 
 // todo: needs to be implemented
 // todo: swagger
 // todo: testing
-router.put("/comment/update/:commentId", updateCommentHandler);
+router.patch("/comment/:commentId", updateCommentHandler);
 
 // todo: needs to be implemented
 // todo: swagger
 // todo: testing
-router.delete("/comment/delete/:commentId", deleteCommentHandler);
+router.delete("/comment/:commentId", deleteCommentHandler);
 
 export default router;

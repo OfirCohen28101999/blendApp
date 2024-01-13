@@ -8,6 +8,8 @@ import morgan from "morgan";
 import config from "config";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import path from "path";
+
 import userRouter from "./routes/user.route";
 import authRouter from "./routes/auth.route";
 import sessionRouter from "./routes/session.route";
@@ -56,6 +58,8 @@ const initApp = (): Promise<Express> => {
           credentials: true,
         })
       );
+
+      app.use("/api/static", express.static(path.join(__dirname, "../public")));
 
       // 4. Logger
       if (process.env.NODE_ENV === "development") app.use(morgan("dev"));

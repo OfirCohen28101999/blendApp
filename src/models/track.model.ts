@@ -14,7 +14,7 @@ export class Track {
 
   // in 300 height only
   @prop({ default: "default.png" })
-  photo: string;
+  image: string;
 
   @prop()
   artistSpotifyId: string;

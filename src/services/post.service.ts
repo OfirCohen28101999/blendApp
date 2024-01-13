@@ -61,7 +61,9 @@ export const findAndUpdatePost = async (
 };
 
 // delete
-export const deletePostById = async (postId: string) => {
-  const post = await postModel.findOneAndDelete({ _id: postId }).lean();
-  return post;
+export const findOneAndDelete = async (
+  query: FilterQuery<Post>,
+  options: QueryOptions = {}
+) => {
+  return await postModel.findOneAndDelete(query, options);
 };

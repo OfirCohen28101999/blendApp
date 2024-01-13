@@ -8,7 +8,7 @@ const CreateTracksInTable = (tracks: any[]) => {
       const newTrack: Track = {
         spotifyId: item.track.id,
         name: item.track.name,
-        photo: item.track.album.images[1].url,
+        image: item.track.album.images[1].url,
         artistSpotifyId: item.track.artists[0].id,
         artistName: item.track.artists[0].name,
         previewUrl: item.track.preview_url,
