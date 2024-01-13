@@ -132,13 +132,12 @@ export const getPostByIdHandler = async (
       return next(new AppError("Post with that ID not found", 404));
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       data: {
         post,
       },
     });
-    return res.status(200).json({ status: "success" });
   } catch (err: any) {
     next(err);
   }

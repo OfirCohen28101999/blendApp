@@ -19,7 +19,6 @@ router.use(deserializeUser, requireUser);
 // todo: swagger
 router.get("/", restrictTo("admin"), getAllUsersHandler);
 
-// todo: test update user
 // todo: swagger, testing
 router
   .route("/me")
