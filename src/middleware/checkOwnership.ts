@@ -13,7 +13,7 @@ export const checkPostOwnership = async (
   const post = await findPostById(req.params.postId);
 
   // @ts-ignore
-  if (post && user && post.creatingUser._id !== user._id) {
+  if (post && user && !post.creatingUser._id.equals(user._id)) {
     return next(
       new AppError("You are not allowed to perform this action", 403)
     );
@@ -31,7 +31,7 @@ export const checkCommentOwnership = async (
   const comment = await findCommentById(req.params.commentId);
 
   // @ts-ignore
-  if (comment && user && comment.creatingUser._id !== user._id) {
+  if (comment && user && !comment.creatingUser._id.equals(user._id)) {
     return next(
       new AppError("You are not allowed to perform this action", 403)
     );

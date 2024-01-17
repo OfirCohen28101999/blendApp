@@ -14,6 +14,11 @@ import {
 } from "../schemas/post.schema";
 import { User } from "../models/user.model";
 import AppError from "../utils/appError";
+import {
+  createComment,
+  findAndUpdateComment,
+  findCommentsByPostId,
+} from "../services/comment.service";
 
 // todo: working!
 export const getAllPostsHandler = async (
@@ -23,6 +28,7 @@ export const getAllPostsHandler = async (
 ) => {
   try {
     const posts = await findAllPosts();
+
     res.status(200).json({
       status: "success",
       result: posts.length,
@@ -72,8 +78,6 @@ export const updatePostHandler = async (
   next: NextFunction
 ) => {
   try {
-    const user = res.locals.user;
-
     const updatedPost = await findAndUpdatePost(
       { _id: req.params.postId },
       req.body,
@@ -90,8 +94,6 @@ export const updatePostHandler = async (
         post: updatedPost,
       },
     });
-
-    return res.status(200).json({ status: "success" });
   } catch (err: any) {
     next(err);
   }
@@ -106,6 +108,7 @@ export const deletePostHandler = async (
 ) => {
   try {
     const post = await findOneAndDelete({ _id: req.params.postId });
+
     if (!post) {
       return next(new AppError("Post with that ID not found", 404));
     }
@@ -132,7 +135,7 @@ export const getPostByIdHandler = async (
       return next(new AppError("Post with that ID not found", 404));
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       status: "success",
       data: {
         post,
@@ -143,23 +146,32 @@ export const getPostByIdHandler = async (
   }
 };
 
-// COMMENTS RELATED SHIT
-
-// todo: needs to be implemented
+// working!
 export const getCommentsByPostIdHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = res.locals.user;
-    return res.status(200).json({ status: "success" });
+    const post = await findPostById(req.params.postId);
+    const comments = await findCommentsByPostId(req.params.postId);
+
+    if (!post || !comments) {
+      return next(new AppError("Post with that ID not found", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        comments,
+      },
+    });
   } catch (err: any) {
     next(err);
   }
 };
 
-// todo: needs to be implemented
+// todo: needs to be checked
 export const createCommentHandler = async (
   req: Request,
   res: Response,
@@ -167,35 +179,77 @@ export const createCommentHandler = async (
 ) => {
   try {
     const user = res.locals.user;
-    return res.status(200).json({ status: "success" });
+    const post = await findPostById(req.params.postId);
+
+    if (!post) {
+      return next(new AppError("Post with that ID not found", 404));
+    }
+
+    const comment = await createComment(
+      {
+        title: req.body.title,
+        description: req.body.description,
+      },
+      post,
+      user
+    );
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        comment,
+      },
+    });
   } catch (err: any) {
     next(err);
   }
 };
 
-// todo: needs to be implemented
+// todo: needs to be checked
 export const updateCommentHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = res.locals.user;
-    return res.status(200).json({ status: "success" });
+    const updatedComment = await findAndUpdateComment(
+      { _id: req.params.commentId },
+      req.body,
+      {}
+    );
+
+    if (!updatedComment) {
+      return next(new AppError("Comment with that ID not found", 404));
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        comment: updatedComment,
+      },
+    });
   } catch (err: any) {
     next(err);
   }
 };
 
-// todo: needs to be implemented
+// todo: needs to be checked
 export const deleteCommentHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = res.locals.user;
-    return res.status(200).json({ status: "success" });
+    const comment = await findOneAndDelete({ _id: req.params.commentId });
+
+    if (!comment) {
+      return next(new AppError("Comment with that ID not found", 404));
+    }
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
   } catch (err: any) {
     next(err);
   }

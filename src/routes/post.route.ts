@@ -74,19 +74,16 @@ router
   )
   .delete(checkPostOwnership, validate(deletePostSchema), deletePostHandler);
 
-// COMMENTS RELATED SHIT
-
-// todo: needs to be implemented
 // todo: swagger
 // todo: testing
 router.get("/:postId/comments", getCommentsByPostIdHandler);
 
-// todo: needs to be implemented
+// todo: needs to be checked
 // todo: swagger
 // todo: testing
 router.post("/comment/:postId", createCommentHandler);
 
-// todo: needs to be implemented
+// todo: needs to be checked
 // todo: swagger
 // todo: testing
 router
