@@ -16,10 +16,27 @@ const router = express.Router();
 
 router.use(deserializeUser, requireUser);
 
-// todo: swagger
+/**
+ * @swagger
+ *
+ * /api/users:
+ *   get:
+ *     produces:
+ *       - application/json
+ *     summary:  gets all users. [this can only be done by admin role users]
+ */
 router.get("/", restrictTo("admin"), getAllUsersHandler);
 
-// todo: swagger, testing
+// todo: testing
+/**
+ * @swagger
+ *
+ * /api/users:
+ *   get:
+ *     produces:
+ *       - application/json
+ *     summary:  get current user (by access token provided through cookies/Authorization starting with Bearer in headers)
+ */
 router
   .route("/me")
   .get(getMeHandler)

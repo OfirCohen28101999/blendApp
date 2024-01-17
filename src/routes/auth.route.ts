@@ -23,6 +23,7 @@ const router = express.Router();
  *   post:
  *     produces:
  *       - application/json
+ *     summary:  register a new user(locally, not through google verification).
  *     parameters:
  *       - name: name
  *         in: formData
@@ -37,6 +38,10 @@ const router = express.Router();
  *         required: true
  *         type: string
  *       - name: passwordConfirm
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: bio
  *         in: formData
  *         required: true
  *         type: string
@@ -56,6 +61,7 @@ router.post(
  *   post:
  *     produces:
  *       - application/json
+ *     summary:  login an existing user.
  *     parameters:
  *       - name: email
  *         in: formData
@@ -68,12 +74,28 @@ router.post(
  */
 router.post("/login", validate(loginUserSchema), loginHandler);
 
-// todo: swagger
+/**
+ * @swagger
+ *
+ * /api/auth/refresh:
+ *   get:
+ *     summary:  refreshes the access_token when getting refresh_token from cookies.
+ *     produces:
+ *       - application/json
+ */
 router.get("/refresh", refreshAccessTokenHandler);
 
 router.use(deserializeUser, requireUser);
 
-// todo: swagger
+/**
+ * @swagger
+ *
+ * /api/auth/logout:
+ *   get:
+ *     summary:  logs out the user by access_token given in cookies[ends all sessions].
+ *     produces:
+ *       - application/json
+ */
 router.get("/logout", logoutHandler);
 
 export default router;

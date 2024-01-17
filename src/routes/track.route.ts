@@ -3,9 +3,17 @@ import { getAllTracksHandler } from "../controllers/track.controller";
 
 const router = express.Router();
 
-// todo: swagger
 // todo: testing
-// POST	/api/tracks	gets all tracks
+// GET	/api/tracks	gets all tracks
+/**
+ * @swagger
+ *
+ * /api/tracks:
+ *   get:
+ *     produces:
+ *       - application/json
+ *     summary:  gets all tracks.
+ */
 router.route("/").get(getAllTracksHandler);
 
 export default router;

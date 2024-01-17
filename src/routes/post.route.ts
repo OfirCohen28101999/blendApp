@@ -32,13 +32,45 @@ const router = express.Router();
 
 router.use(deserializeUser, requireUser);
 
-// todo: swagger
 // todo: testing
 // GET	/api/post	Retrieve all posts
-
-// todo: swagger
-// todo: testing
 // POST	/api/post	Creates a new post
+/**
+ * @swagger
+ *
+ * /api/post:
+ *   post:
+ *     summary:  create a post.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: title
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: trackId
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: image
+ *         in: formData
+ *         required: false
+ *         type: string
+ */
+
+/**
+ * @swagger
+ *
+ * /api/post:
+ *   get:
+ *     produces:
+ *       - application/json
+ *     summary:  gets all posts.
+ */
 router
   .route("/")
   .post(
@@ -50,17 +82,58 @@ router
   )
   .get(getAllPostsHandler);
 
-// todo: swagger
 // todo: testing
 // GET	/api/post/:id	Returns a single post
 
-// todo: swagger
 // todo: testing
 // PATCH	/api/post/:id	Updates a post
 
-// todo: swagger
 // todo: testing
 // DELETE	/api/post/:id	Deletes a post
+/**
+ * @swagger
+ *
+ * /api/post/:id:
+ *   get:
+ *     summary:  returns post by id.
+ *     produces:
+ *       - application/json
+ */
+/**
+ * @swagger
+ *
+ * /api/post:
+ *   delete:
+ *     summary:  deletes post by id.
+ *     produces:
+ *       - application/json
+ */
+/**
+ * @swagger
+ *
+ * /api/post:
+ *   patch:
+ *     summary:  updates post by id.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: title
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: trackId
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: image
+ *         in: formData
+ *         required: false
+ *         type: string
+ */
 router
   .route("/:postId")
   .get(validate(getPostSchema), getPostByIdHandler)
@@ -74,18 +147,69 @@ router
   )
   .delete(checkPostOwnership, validate(deletePostSchema), deletePostHandler);
 
-// todo: swagger
 // todo: testing
+/**
+ * @swagger
+ *
+ * /api/post/:id/comments:
+ *   get:
+ *     summary:  get commments of provided post by postId.
+ *     produces:
+ *       - application/json
+ */
 router.get("/:postId/comments", getCommentsByPostIdHandler);
 
 // todo: needs to be checked
-// todo: swagger
 // todo: testing
+/**
+ * @swagger
+ *
+ * /api/comment/:postId:
+ *   post:
+ *     summary:  create comment on a provided post by postId.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: title
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ */
 router.post("/comment/:postId", createCommentHandler);
 
 // todo: needs to be checked
-// todo: swagger
 // todo: testing
+/**
+ * @swagger
+ *
+ * /api/comment/:commentId:
+ *   patch:
+ *     summary:  update comment on a provided post by commentId.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: title
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: description
+ *         in: formData
+ *         required: true
+ *         type: string
+ */
+/**
+ * @swagger
+ *
+ * /api/comment/:commentId:
+ *   delete:
+ *     summary:  deletes comment by provided commentId.
+ *     produces:
+ *       - application/json
+ */
 router
   .route("/comment/:commentId")
   .patch(checkCommentOwnership, updateCommentHandler)
