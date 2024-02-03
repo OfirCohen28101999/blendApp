@@ -18,9 +18,9 @@ import {
   createComment,
   findAndUpdateComment,
   findCommentsByPostId,
+  findOneAndDeleteComment,
 } from "../services/comment.service";
 
-// todo: working!
 export const getAllPostsHandler = async (
   req: Request,
   res: Response,
@@ -41,7 +41,6 @@ export const getAllPostsHandler = async (
   }
 };
 
-// todo: working!
 export const createPostHandler = async (
   req: Request<{}, {}, CreatePostInput>,
   res: Response,
@@ -70,8 +69,6 @@ export const createPostHandler = async (
   }
 };
 
-// todo: working!
-// todo: need to add user validation so only the creating user can delete.
 export const updatePostHandler = async (
   req: Request<UpdatePostInput["params"], {}, UpdatePostInput["body"]>,
   res: Response,
@@ -99,8 +96,6 @@ export const updatePostHandler = async (
   }
 };
 
-// todo: working!
-// todo: need to add user validation so only the creating user can delete.
 export const deletePostHandler = async (
   req: Request<DeletePostInput>,
   res: Response,
@@ -122,7 +117,6 @@ export const deletePostHandler = async (
   }
 };
 
-// todo: working!
 export const getPostByIdHandler = async (
   req: Request<GetPostInput>,
   res: Response,
@@ -146,7 +140,6 @@ export const getPostByIdHandler = async (
   }
 };
 
-// working!
 export const getCommentsByPostIdHandler = async (
   req: Request,
   res: Response,
@@ -171,7 +164,6 @@ export const getCommentsByPostIdHandler = async (
   }
 };
 
-// todo: needs to be checked
 export const createCommentHandler = async (
   req: Request,
   res: Response,
@@ -205,7 +197,6 @@ export const createCommentHandler = async (
   }
 };
 
-// todo: needs to be checked
 export const updateCommentHandler = async (
   req: Request,
   res: Response,
@@ -233,14 +224,15 @@ export const updateCommentHandler = async (
   }
 };
 
-// todo: needs to be checked
 export const deleteCommentHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const comment = await findOneAndDelete({ _id: req.params.commentId });
+    const comment = await findOneAndDeleteComment({
+      _id: req.params.commentId,
+    });
 
     if (!comment) {
       return next(new AppError("Comment with that ID not found", 404));
@@ -248,7 +240,9 @@ export const deleteCommentHandler = async (
 
     res.status(204).json({
       status: "success",
-      data: null,
+      data: {
+        comment: null,
+      },
     });
   } catch (err: any) {
     next(err);

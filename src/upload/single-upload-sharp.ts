@@ -60,7 +60,6 @@ export const resizeUserProfileImage = async (
     const file = req.file;
     if (!file) return next();
 
-    // todo: test this shit
     // @ts-ignore
     const fileName = `user-${user._id}-${Date.now()}.jpeg`;
     await sharp(req.file?.buffer)

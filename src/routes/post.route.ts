@@ -93,7 +93,7 @@ router
 /**
  * @swagger
  *
- * /api/post/:id:
+ * /api/post/:postId:
  *   get:
  *     summary:  returns post by id.
  *     produces:
@@ -102,7 +102,7 @@ router
 /**
  * @swagger
  *
- * /api/post:
+ * /api/post/:postId:
  *   delete:
  *     summary:  deletes post by id.
  *     produces:
@@ -111,7 +111,7 @@ router
 /**
  * @swagger
  *
- * /api/post:
+ * /api/post/:postId:
  *   patch:
  *     summary:  updates post by id.
  *     produces:
@@ -159,12 +159,11 @@ router
  */
 router.get("/:postId/comments", getCommentsByPostIdHandler);
 
-// todo: needs to be checked
 // todo: testing
 /**
  * @swagger
  *
- * /api/comment/:postId:
+ * /api/post/comment/:postId:
  *   post:
  *     summary:  create comment on a provided post by postId.
  *     produces:
@@ -181,12 +180,11 @@ router.get("/:postId/comments", getCommentsByPostIdHandler);
  */
 router.post("/comment/:postId", createCommentHandler);
 
-// todo: needs to be checked
 // todo: testing
 /**
  * @swagger
  *
- * /api/comment/:commentId:
+ * /api/post/comment/:commentId:
  *   patch:
  *     summary:  update comment on a provided post by commentId.
  *     produces:
@@ -204,7 +202,7 @@ router.post("/comment/:postId", createCommentHandler);
 /**
  * @swagger
  *
- * /api/comment/:commentId:
+ * /api/post/comment/:commentId:
  *   delete:
  *     summary:  deletes comment by provided commentId.
  *     produces:

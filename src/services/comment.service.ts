@@ -36,7 +36,7 @@ export const findCommentsByPostId = async (postId: string) => {
   const comment = await commentModel
     .find({ post: postId })
     .populate("creatingUser")
-    .populate("track");
+    .populate("post");
   return comment;
 };
 
@@ -60,7 +60,7 @@ export const findAndUpdateComment = async (
 };
 
 // delete
-export const findOneAndDelete = async (
+export const findOneAndDeleteComment = async (
   query: FilterQuery<Post>,
   options: QueryOptions = {}
 ) => {

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { findAllTracks } from "../services/track.service";
 
-// todo: check
 export const getAllTracksHandler = async (
   req: Request,
   res: Response,

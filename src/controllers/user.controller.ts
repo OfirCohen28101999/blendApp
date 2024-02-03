@@ -39,7 +39,7 @@ export const getAllUsersHandler = async (
   }
 };
 
-// todo: working! (test image)
+// todo: test image
 export const updateUserHandler = async (
   req: Request<{}, {}, UpdateUserInput>,
   res: Response,
