@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteImage,
   getAllUsersHandler,
   getMeHandler,
   updateUserHandler,
@@ -42,4 +43,8 @@ router
   .get(getMeHandler)
   .patch(uploadPostImage, resizeUserProfileImage, updateUserHandler);
 
+  router
+  .route("/image/delete/:imageName")
+  .delete(deleteImage)
+  
 export default router;

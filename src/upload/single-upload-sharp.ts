@@ -34,12 +34,12 @@ export const resizePostImage = async (
     const file = req.file;
     if (!file) return next();
 
-    const fileName = `post-${req.params.postId}-${Date.now()}.jpeg`;
+    const fileName = `post-${req.params.postId}.jpeg`;
     await sharp(req.file?.buffer)
       .resize(800, 450)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`${__dirname}/../../public/posts/${fileName}`);
+      .toFile(`${__dirname}/../../../public/posts/${fileName}`);
 
     req.body.image = fileName;
 
@@ -61,12 +61,12 @@ export const resizeUserProfileImage = async (
     if (!file) return next();
 
     // @ts-ignore
-    const fileName = `user-${user._id}-${Date.now()}.jpeg`;
+    const fileName = `user-${user._id}.jpeg`;
     await sharp(req.file?.buffer)
       .resize(800, 450)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`${__dirname}/../../public/users/${fileName}`);
+      .toFile(`${__dirname}/../../../public/users/${fileName}`);
 
     req.body.image = fileName;
 

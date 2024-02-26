@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { findAllUsers, findAndUpdateUser } from "../services/user.service";
 import { UpdateUserInput } from "../schemas/user.schema";
+import fs from 'fs';
 
 export const getMeHandler = (
   req: Request,
@@ -14,6 +15,26 @@ export const getMeHandler = (
       data: {
         user,
       },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const deleteImage = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const {imageName} = req.params;
+    const imageLocation = `${__dirname}/../../../public/users/${imageName}`;
+    fs.unlink(imageLocation, (err) => {
+      if (err) {
+        console.error('Error deleting file:', err);
+        return res.status(500).json({ error: 'Failed to delete file' });
+      }
+      res.json({ message: 'File deleted successfully' });
     });
   } catch (err: any) {
     next(err);

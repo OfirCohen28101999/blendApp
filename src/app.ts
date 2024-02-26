@@ -60,7 +60,7 @@ const initApp = (): Promise<Express> => {
         })
       );
 
-      app.use("/api/static", express.static(path.join(__dirname, "../public")));
+      app.use('/static', express.static('public'))
 
       // 4. Logger
       if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
