@@ -2,7 +2,7 @@ export default {
   port: 8000,
   accessTokenExpiresIn: 15,
   refreshTokenExpiresIn: 59,
-  origin: "http://localhost:3000",
+  origin: "https://localhost:8000",
   dbUsername: "blendApp",
   dbPassword: "Bb123456",
   dbClusterName: "blend.ik0o8gk",

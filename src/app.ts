@@ -29,7 +29,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${config.get<number>("port")}`,
+        url: `https://localhost:${config.get<number>("port")}`,
       },
     ],
   },
@@ -59,8 +59,14 @@ const initApp = (): Promise<Express> => {
           credentials: true,
         })
       );
-
+   
       app.use('/static', express.static('public'))
+      app.use("/api/auth/session", sessionRouter);
+      app.use("/api/users", userRouter);
+      app.use("/api/auth", authRouter);
+      app.use("/api/post", postRouter);
+      app.use("/api/tracks", trackRouter);
+
 
       // 4. Logger
       if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
@@ -70,11 +76,11 @@ const initApp = (): Promise<Express> => {
       app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
       // Routes
-      app.use("/api/auth/session", sessionRouter);
-      app.use("/api/users", userRouter);
-      app.use("/api/auth", authRouter);
-      app.use("/api/post", postRouter);
-      app.use("/api/tracks", trackRouter);
+      // app.use("/api/auth/session", sessionRouter);
+      // app.use("/api/users", userRouter);
+      // app.use("/api/auth", authRouter);
+      // app.use("/api/post", postRouter);
+      // app.use("/api/tracks", trackRouter);
 
       /**
        * @swagger
@@ -92,7 +98,11 @@ const initApp = (): Promise<Express> => {
           });
         }
       );
-
+      const clientPath = path.join(__dirname, '../../../Blend/build')
+      app.use(express.static(clientPath))
+      app.get('/*', (req, res) => {
+        res.sendFile(path.join(clientPath, 'index.html'))
+      })
       /**
        * @swagger
        * /:
