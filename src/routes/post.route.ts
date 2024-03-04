@@ -6,6 +6,7 @@ import {
   createPostHandler,
   deleteCommentHandler,
   deletePostHandler,
+  deletePostImageHandler,
   getAllPostsHandler,
   getCommentsByPostIdHandler,
   getPostByIdHandler,
@@ -146,6 +147,10 @@ router
     updatePostHandler
   )
   .delete(checkPostOwnership, validate(deletePostSchema), deletePostHandler);
+
+  router
+  .route("/image/delete/:postId")
+  .delete(deletePostImageHandler)
 
 // todo: testing
 /**

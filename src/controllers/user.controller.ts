@@ -21,7 +21,7 @@ export const getMeHandler = (
   }
 };
 
-export const deleteImage = (
+export const deleteImageHandler = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -60,7 +60,6 @@ export const getAllUsersHandler = async (
   }
 };
 
-// todo: test image
 export const updateUserHandler = async (
   req: Request<{}, {}, UpdateUserInput>,
   res: Response,
