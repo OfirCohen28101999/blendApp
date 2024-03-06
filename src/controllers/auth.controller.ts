@@ -55,6 +55,7 @@ export const registerHandler = async (
       email: req.body.email,
       name: req.body.name,
       password: req.body.password,
+      bio: req.body.bio
     });
 
     res.status(201).json({
