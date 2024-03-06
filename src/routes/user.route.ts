@@ -28,7 +28,6 @@ router.use(deserializeUser, requireUser);
  */
 router.get("/", restrictTo("admin"), getAllUsersHandler);
 
-// todo: testing
 /**
  * @swagger
  *
@@ -43,6 +42,15 @@ router
   .get(getMeHandler)
   .patch(uploadPostImage, resizeUserProfileImage, updateUserHandler);
 
+  /**
+ * @swagger
+ *
+ * /api/users/image/delete/:imageName:
+ *   delete:
+ *     produces:
+ *       - application/json
+ *     summary:  delete current user image by provided imageName.
+ */
 router
   .route("/image/delete/:imageName")
   .delete(deleteImageHandler)

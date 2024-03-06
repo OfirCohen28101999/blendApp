@@ -1,18 +1,10 @@
 import express from "express";
-import {
-  loginHandler,
-  logoutHandler,
-  refreshAccessTokenHandler,
-  registerHandler,
-} from "../controllers/auth.controller";
+import { loginHandler, logoutHandler, refreshAccessTokenHandler, registerHandler } from "../controllers/auth.controller";
 import { deserializeUser } from "../middleware/deserializeUser";
 import { requireUser } from "../middleware/requireUser";
 import { validate } from "../middleware/validate";
 import { createUserSchema, loginUserSchema } from "../schemas/user.schema";
-import {
-  resizeUserProfileImage,
-  uploadPostImage,
-} from "../upload/single-upload-sharp";
+import { resizeUserProfileImage, uploadPostImage} from "../upload/single-upload-sharp";
 
 const router = express.Router();
 

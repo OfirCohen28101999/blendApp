@@ -33,9 +33,6 @@ const router = express.Router();
 
 router.use(deserializeUser, requireUser);
 
-// todo: testing
-// GET	/api/post	Retrieve all posts
-// POST	/api/post	Creates a new post
 /**
  * @swagger
  *
@@ -83,13 +80,7 @@ router
   )
   .get(getAllPostsHandler);
 
-// todo: testing
-// GET	/api/post/:id	Returns a single post
 
-// todo: testing
-// PATCH	/api/post/:id	Updates a post
-
-// todo: testing
 // DELETE	/api/post/:id	Deletes a post
 /**
  * @swagger
@@ -148,11 +139,20 @@ router
   )
   .delete(checkPostOwnership, validate(deletePostSchema), deletePostHandler);
 
+/**
+ * @swagger
+ *
+ * /api/post/image/delete/:postId:
+ *   delete:
+ *     summary:  deletes image by provided postId.
+ *     produces:
+ *       - application/json
+ */
+
   router
   .route("/image/delete/:postId")
   .delete(deletePostImageHandler)
 
-// todo: testing
 /**
  * @swagger
  *
@@ -164,7 +164,6 @@ router
  */
 router.get("/:postId/comments", getCommentsByPostIdHandler);
 
-// todo: testing
 /**
  * @swagger
  *
@@ -185,7 +184,6 @@ router.get("/:postId/comments", getCommentsByPostIdHandler);
  */
 router.post("/comment/:postId", createCommentHandler);
 
-// todo: testing
 /**
  * @swagger
  *

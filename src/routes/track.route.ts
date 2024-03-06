@@ -3,7 +3,6 @@ import { getAllTracksHandler } from "../controllers/track.controller";
 
 const router = express.Router();
 
-// todo: testing
 // GET	/api/tracks	gets all tracks
 /**
  * @swagger

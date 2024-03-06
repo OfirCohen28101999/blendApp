@@ -4,9 +4,10 @@ import mongoose from "mongoose";
 import { Express } from "express";
 import userModel from "../models/user.model";
 
-let app: Express;
+export let app: Express;
+export let accessToken: string;
 
-const user = {
+export const user = {
   name: "test user",
   email: "testUser@test.com",
   password: "1234567890",
@@ -43,8 +44,6 @@ describe("Auth tests", () => {
 
     expect(response.statusCode).toBe(400);
   });
-
-  let accessToken: string;
 
   test("Test Login", async () => {
     const response = await request(app).post("/api/auth/login").send({
