@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
-import config from "config";
 
-const dbUrl = `mongodb+srv://${config.get("dbUsername")}:${config.get(
-  "dbPassword"
-)}@${config.get("dbClusterName")}.mongodb.net/?retryWrites=true&w=majority`;
+const dbUrl = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER_NAME}.mongodb.net/?retryWrites=true&w=majority`;
 
 const connectDB = async () => {
   try {

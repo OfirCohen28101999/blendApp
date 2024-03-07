@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "target": "es2016",                               
+      "experimentalDecorators": true,                   
+      "emitDecoratorMetadata": true,                  
+      "module": "commonjs",                              
+      "moduleResolution": "node",                  
+      "sourceMap": true,                              
+      "outDir": "dist",                                  
+      "esModuleInterop": true,                            
+      "forceConsistentCasingInFileNames": true,            
+      "strict": true,                                      
+      "strictPropertyInitialization": false,             
+      "skipLibCheck": true                                 
+    },
+    "lib": [
+        "es2015"
+    ],
+    "exclude": [
+        "./src/test"
+    ]
+  }

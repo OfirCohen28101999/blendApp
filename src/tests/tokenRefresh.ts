@@ -48,14 +48,4 @@ describe("refresh token tests", () => {
 
     expect(responseFromSomeQuery.statusCode).toBe(401);
   });
-
-  //   test("Test User with that token no longer exist functionality", async () => {
-  //     await userModel.findOneAndUpdate({ email: user.email }, { role: "admin" });
-  //     const response = await request(app)
-  //       .get("/api/users")
-  //       .set("Authorization", "Bearer " + accessToken);
-  //     console.log("response: " + JSON.stringify(response));
-
-  //     expect(response.statusCode).toBe(401);
-  //   });
 });

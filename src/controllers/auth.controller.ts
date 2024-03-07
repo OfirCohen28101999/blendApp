@@ -23,20 +23,29 @@ import {
 export const excludedFields = ["password"];
 
 // Cookie options
+
+const accessTokenExpiresIn = process.env.ACCESS_TOKEN_EXPIRATION
+  ? parseInt(process.env.ACCESS_TOKEN_EXPIRATION, 10)
+  : 0;
+
 const accessTokenCookieOptions: CookieOptions = {
   expires: new Date(
-    Date.now() + config.get<number>("accessTokenExpiresIn") * 60 * 1000
+    Date.now() + accessTokenExpiresIn * 60 * 1000
   ),
-  maxAge: config.get<number>("accessTokenExpiresIn") * 60 * 1000,
+  maxAge: accessTokenExpiresIn * 60 * 1000,
   httpOnly: true,
   sameSite: "lax",
 };
 
+const refreshTokenExpiresIn = process.env.REFRESH_TOKEN_EXPIRATION
+  ? parseInt(process.env.REFRESH_TOKEN_EXPIRATION, 10)
+  : 0;
+
 const refreshTokenCookieOptions: CookieOptions = {
   expires: new Date(
-    Date.now() + config.get<number>("refreshTokenExpiresIn") * 60 * 1000
+    Date.now() + refreshTokenExpiresIn * 60 * 1000
   ),
-  maxAge: config.get<number>("refreshTokenExpiresIn") * 60 * 1000,
+  maxAge: refreshTokenExpiresIn * 60 * 1000,
   httpOnly: true,
   sameSite: "lax",
 };
@@ -155,7 +164,7 @@ export const refreshAccessTokenHandler = async (
 
     // Sign new access token
     const access_token = signJwt({ sub: user._id }, "accessTokenPrivateKey", {
-      expiresIn: `${config.get<number>("accessTokenExpiresIn")}m`,
+      expiresIn: `${process.env.ACCESS_TOKEN_EXPIRATION}m`,
     });
 
     // Send the access token as cookie
@@ -232,7 +241,7 @@ export const googleOauthHandler = async (
     );
 
     if (!user)
-      return res.redirect(`${config.get<string>("origin")}/oauth/error`);
+      return res.redirect(`${process.env.ORIGIN}/oauth/error`);
 
     // Create access and refresh token
     const { access_token: accessToken, refresh_token } = await signToken(user);
@@ -245,9 +254,9 @@ export const googleOauthHandler = async (
       httpOnly: false,
     });
 
-    res.redirect(`${config.get<string>("origin")}${pathUrl}`);
+    res.redirect(`${process.env.ORIGIN}${pathUrl}`);
   } catch (err: any) {
     console.log("Failed to authorize Google User", err);
-    return res.redirect(`${config.get<string>("origin")}/oauth/error`);
+    return res.redirect(`${process.env.ORIGIN}/oauth/error`);
   }
 };

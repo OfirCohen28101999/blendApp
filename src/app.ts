@@ -29,7 +29,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `https://localhost:${config.get<number>("port")}`,
+        url: `http://localhost:${process.env.PORT}`,
       },
     ],
   },
@@ -55,7 +55,7 @@ const initApp = (): Promise<Express> => {
       // 3. Cors
       app.use(
         cors({
-          origin: config.get<string>("origin"),
+          origin: process.env.ORIGIN,
           credentials: true,
         })
       );
@@ -117,9 +117,9 @@ const initApp = (): Promise<Express> => {
 
       // initilize songs
       initilizeSongsTableByPlaylists(
-        config.get<string>("initializationPlaylistIds").split(","),
-        config.get<string>("rapidApiKey"),
-        config.get<string>("rapidApiHost")
+        process.env.INITIALIZATION_PLAYLIST_IDS?.split(",") ?? [],
+        process.env.RAPIDAPI_KEY ?? "",
+        process.env.RAPIDAPI_HOST ?? ""
       );
 
       // Global Error Handler

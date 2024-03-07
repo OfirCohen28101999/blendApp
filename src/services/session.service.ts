@@ -46,9 +46,9 @@ export const getGoogleOauthToken = async ({
 
   const options = {
     code,
-    client_id: config.get<string>("googleClientId"),
-    client_secret: config.get<string>("googleClientSecret"),
-    redirect_uri: config.get<string>("googleOauthRedirect"),
+    client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
+    client_secret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+    redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URL,
     grant_type: "authorization_code",
   };
   try {
