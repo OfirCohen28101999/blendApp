@@ -8,7 +8,7 @@
     "start": "tsc && node ./dist/src/server.js",
     "dev": "cp .env.development .env && ts-node-dev --respawn --transpile-only src/server.ts",
     "prod": "cp .env.production .env && tsc -p tsconfig_prod.json && pm2 restart ecosystem.config.js --env production",
-    "prod1": "cp .env.production .env && tsc -p tsconfig_prod.json &&  node ./dist/src/server.js"
+    "prod1": "copy .env.production .env && tsc -p tsconfig_prod.json &&  node ./dist/src/server.js"
   },
   "repository": {
     "type": "git",
