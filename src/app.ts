@@ -98,7 +98,7 @@ const initApp = (): Promise<Express> => {
           });
         }
       );
-      const clientPath = path.join(__dirname, '../../../Blend/Blend/build')
+      const clientPath = path.join(__dirname, '../../../Blend/build')
       app.use(express.static(clientPath))
       app.get('/*', (req, res) => {
         res.sendFile(path.join(clientPath, 'index.html'))
