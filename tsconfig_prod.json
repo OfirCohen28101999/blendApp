@@ -17,6 +17,6 @@
         "es2015"
     ],
     "exclude": [
-        "./src/test"
+        "./src/tests"
     ]
   }
