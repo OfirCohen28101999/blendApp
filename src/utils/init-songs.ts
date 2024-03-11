@@ -26,29 +26,29 @@ export const initilizeSongsTableByPlaylists = async (
   apiKey: string,
   apiHost: string
 ) => {
-  [...playlistIds].forEach(async (id) => {
-    const options = {
-      method: "GET",
-      url: `https://${apiHost}/playlist_tracks/`,
-      params: {
-        id,
-        offset: "0",
-        limit: "100",
-      },
-      headers: {
-        "X-RapidAPI-Key": apiKey,
-        "X-RapidAPI-Host": apiHost,
-      },
-    };
+  // [...playlistIds].forEach(async (id) => {
+  //   const options = {
+  //     method: "GET",
+  //     url: `https://${apiHost}/playlist_tracks/`,
+  //     params: {
+  //       id,
+  //       offset: "0",
+  //       limit: "100",
+  //     },
+  //     headers: {
+  //       "X-RapidAPI-Key": apiKey,
+  //       "X-RapidAPI-Host": apiHost,
+  //     },
+  //   };
 
-    try {
-      const response = await axios.request(options);
-      await CreateTracksInTable(response.data.items);
-      console.log(
-        `successfuly added ${response.data.items.length} tracks from playlist id: ${id}`
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  //   try {
+  //     const response = await axios.request(options);
+  //     await CreateTracksInTable(response.data.items);
+  //     console.log(
+  //       `successfuly added ${response.data.items.length} tracks from playlist id: ${id}`
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
 };
