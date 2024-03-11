@@ -26,7 +26,7 @@ initApp().then(app => {
   https
     .createServer(httpsOptions, app)
     .listen(port, () => {
-      console.log(`Server started on: https://10.10.248.181:${port}`);
+      console.log(`Server started on: https://node21.cs.colman.ac.il:${port}`);
     });
   }
 })
