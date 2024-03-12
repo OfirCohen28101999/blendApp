@@ -31,7 +31,6 @@ export const deleteImageHandler = (
     const imageLocation = `${__dirname}/../../../public/users/${imageName}`;
     fs.unlink(imageLocation, (err) => {
       if (err) {
-        console.error('Error deleting file:', err);
         return res.status(500).json({ error: 'Failed to delete file' });
       }
       res.json({ message: 'File deleted successfully' });

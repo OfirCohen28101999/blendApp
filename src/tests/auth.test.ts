@@ -1,7 +1,7 @@
 import request from "supertest";
-import initApp from "../app";
-import mongoose from "mongoose";
 import { Express } from "express";
+import mongoose from "mongoose";
+import initApp from "../app";
 import userModel from "../models/user.model";
 
 export let app: Express;
@@ -12,6 +12,11 @@ export const user = {
   email: "testUser@test.com",
   password: "1234567890",
   passwordConfirm: "1234567890",
+  bio: "Test bio"
+};
+
+export const updatedUser = {
+  bio: "Updated test bio"
 };
 
 beforeAll(async () => {
@@ -29,10 +34,9 @@ describe("Auth tests", () => {
     const response = await request(app).post("/api/auth/register").send(user);
     expect(response.statusCode).toBe(201);
   });
-
+  
   test("Test Register exist email", async () => {
     const response = await request(app).post("/api/auth/register").send(user);
-    console.log("response: " + JSON.stringify(response));
     expect(response.statusCode).toBe(409);
   });
 
@@ -40,8 +44,6 @@ describe("Auth tests", () => {
     const response = await request(app)
       .post("/api/auth/register")
       .send({ email: user.email });
-    console.log("response: " + JSON.stringify(response));
-
     expect(response.statusCode).toBe(400);
   });
 
@@ -51,22 +53,25 @@ describe("Auth tests", () => {
       password: user.password,
     });
     expect(response.statusCode).toBe(200);
-    console.log("response: " + JSON.stringify(response));
 
     accessToken = response.body.accessToken;
     expect(accessToken).toBeDefined();
   });
 
+  test("Test GoogleLogin Fail", async () => {
+    const response = await request(app).get("/api/auth/session/oauth/google");
+    expect(response.statusCode).toBe(401);
+  });
+
   test("Test forbidden access without token", async () => {
     const response = await request(app).get("/api/users/me");
-    console.log("response: " + JSON.stringify(response));
-
     expect(response.statusCode).toBe(401);
   });
 
   test("Test access with valid token", async () => {
     const response = await request(app)
       .get("/api/users/me")
+      .send(updatedUser)
       .set("Authorization", "Bearer " + accessToken);
     expect(response.statusCode).toBe(200);
   });
@@ -78,12 +83,24 @@ describe("Auth tests", () => {
     expect(response.statusCode).toBe(401);
   });
 
+  test("Test UpdateUser", async () => { 
+    const response = await request(app)
+    .patch("/api/users/me")
+    .set("Authorization", "Bearer " + accessToken);
+  expect(response.statusCode).toBe(200);
+  });
+
+  test("Test DeleteUserImage Fail", async () => { 
+    const response = await request(app)
+    .delete("/api/users/image/delete/default.png")
+    .set("Authorization", "Bearer " + accessToken);
+  expect(response.statusCode).toBe(500);
+  });
+
   test("Test forbidden access with valid token but no role permissions", async () => {
     const response = await request(app)
       .get("/api/users")
       .set("Authorization", "Bearer " + accessToken);
-    console.log("response: " + JSON.stringify(response));
-
     expect(response.statusCode).toBe(403);
   });
 
@@ -92,8 +109,12 @@ describe("Auth tests", () => {
     const response = await request(app)
       .get("/api/users")
       .set("Authorization", "Bearer " + accessToken);
-    console.log("response: " + JSON.stringify(response));
+    expect(response.statusCode).toBe(200);
+  });
 
+  test("Test Logout", async () => {
+    const response = await request(app).get("/api/auth/logout")
+    .set("Authorization", "Bearer " + accessToken);
     expect(response.statusCode).toBe(200);
   });
 });
